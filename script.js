@@ -1,116 +1,104 @@
+/* ------------------------------
+    LOAD EXTERNAL SCRIPT
+------------------------------ */
+function loadScript(src) {
+    const s = document.createElement("script");
+    s.src = src;
+    document.body.appendChild(s);
+}
 
+/* ------------------------------
+    PASSWORD SYSTEM
+------------------------------ */
 const PASSWORD_HASH = "ea6e8386385e62e415caa05fba660b9cbafc152ead3ecb35ba0c94e7afa4730e";  
 
 async function sha256(message) {
-  const msgBuffer = new TextEncoder().encode(message);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
-  return [...new Uint8Array(hashBuffer)]
-    .map(b => b.toString(16).padStart(2, "0"))
-    .join("");
+    const msgBuffer = new TextEncoder().encode(message);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+    return [...new Uint8Array(hashBuffer)]
+        .map(b => b.toString(16).padStart(2, "0"))
+        .join("");
 }
 
 document.getElementById("login-button").addEventListener("click", async () => {
-  const pwd = document.getElementById("password-input").value.trim();
-  const hash = await sha256(pwd);
+    const pwd = document.getElementById("password-input").value.trim();
+    const hash = await sha256(pwd);
 
-  if (hash === PASSWORD_HASH) {
-    document.getElementById("login-screen").classList.add("hidden");
-    document.getElementById("app").classList.remove("hidden");
+    if (hash === PASSWORD_HASH) {
+        // hide login, show app
+        document.getElementById("login-screen").classList.add("hidden");
+        document.getElementById("app").classList.remove("hidden");
 
-    setActiveCategory("cars");
-    loadCategory("cars");
-  } else {
-    document.getElementById("login-error").textContent = "Incorrect password.";
-  }
+        // Load spreadsheet system ONLY after password!
+        loadScript("fetchSheets.js");
+    } else {
+        document.getElementById("login-error").textContent = "Incorrect password.";
+    }
 });
 
-
-
+/* ------------------------------
+    CATEGORIES (NO JSON ANYMORE)
+------------------------------ */
 const CATEGORY_MAP = {
-  "cars": {
-    title: "Cars",
-    file: "Cars.json"
-  },
-  "guns": {
-    title: "Guns",
-    file: "Guns.json"
-  },
-  "wraps": {
-    title: "Wraps",
-    file: "Wraps.json"
-  },
-  "gun-customisation": {
-    title: "Gun Customisation",
-    file: "Gun Customisation.json"
-  },
-  "car-customisation": {
-    title: "Car Customisation",
-    file: "Car Customisation.json"
-  }
+    "cars": { title: "Cars", sheet: "Cars" },
+    "guns": { title: "Guns", sheet: "Guns" },
+    "wraps": { title: "Wraps", sheet: "Wraps" },
+    "gun-customisation": { title: "Gun Customisation", sheet: "Gun Customisation" },
+    "car-customisation": { title: "Car Customisation", sheet: "Car Customisation" }
 };
 
-
-
+/* ------------------------------
+    CATEGORY BUTTONS
+------------------------------ */
 document.querySelectorAll(".nav-button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const category = btn.dataset.category;
-    setActiveCategory(category);
-    loadCategory(category);
-  });
+    btn.addEventListener("click", () => {
+        const category = btn.dataset.category;
+        setActiveCategory(category);
+
+        // Call spreadsheet loader (defined inside fetchSheets.js)
+        if (window.loadCategoryFromSheets) {
+            loadCategoryFromSheets(category);
+        }
+    });
 });
 
 function setActiveCategory(category) {
-  document.querySelectorAll(".nav-button").forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.category === category);
-  });
+    document.querySelectorAll(".nav-button").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.category === category);
+    });
 
-  document.getElementById("category-title").textContent =
-    CATEGORY_MAP[category].title;
+    document.getElementById("category-title").textContent =
+        CATEGORY_MAP[category].title;
 }
 
-
-
-
-async function loadCategory(category) {
-  const fileName = CATEGORY_MAP[category].file;
-
-  try {
-    const res = await fetch("blockspin-asset-values/" + fileName);
-    const items = await res.json();
-
-    renderItems(items);
-    document.getElementById("status-message").textContent = "";
-  } catch (err) {
-    document.getElementById("status-message").textContent =
-      "Error loading items.";
-  }
-}
-
+/* ------------------------------
+    RENDER ITEM CARDS
+------------------------------ */
 function renderItems(items) {
-  const container = document.getElementById("items-container");
-  container.innerHTML = "";
+    const container = document.getElementById("items-container");
+    container.innerHTML = "";
 
-  items.forEach(item => {
-    const card = document.createElement("div");
-    card.className = "item-card";
+    items.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "item-card";
 
-    card.innerHTML = `
-      <h3 class="item-name">${item.Name}</h3>
+        card.innerHTML = `
+            <h3 class="item-name">${item.Name}</h3>
 
-      <div class="item-image-wrap">
-        <img src="${item["Image URL"]}" class="item-image" />
-      </div>
+            <div class="item-image-wrap">
+                <img src="${item["Image URL"]}" class="item-image" />
+            </div>
 
-      <div class="rarity-badge rarity-${item.Rarity.toLowerCase()}">
-        ${item.Rarity}
-      </div>
+            <div class="rarity-badge rarity-${item.Rarity.toLowerCase()}">
+                ${item.Rarity}
+            </div>
 
-      <p class="asset-value">Asset Value: $${Number(item.AssetValue).toLocaleString()}</p>
-      <p class="pawn-value">Pawn Value: $${Number(item.PawnValue).toLocaleString()}</p>
-    `;
+            <p class="asset-value">Asset Value: ${item.AssetValue}</p>
+            <p class="pawn-value">Pawn Value: ${item.PawnValue}</p>
+        `;
 
-    container.appendChild(card);
-  });
+        container.appendChild(card);
+    });
 }
 
 console.log("SCRIPT LOADED");
