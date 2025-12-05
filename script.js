@@ -1,5 +1,5 @@
 
-const PASSWORD_HASH = "c16f390d62f317a999f00f9924267fc7b307a828834a43602caf6960719cd813";  
+const PASSWORD_HASH = "713c3239154caa8c778eda867c36f003961c166cdea50de8a4c687eba038e56e";  
 
 async function sha256(message) {
   const msgBuffer = new TextEncoder().encode(message);
@@ -112,3 +112,5 @@ function renderItems(items) {
     container.appendChild(card);
   });
 }
+
+console.log("SCRIPT LOADED");
