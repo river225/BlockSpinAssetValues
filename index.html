@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BlockSpin Items</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+
+  <div id="login-screen">
+    <div class="login-box">
+      <h1>Moderator Access</h1>
+      <p>Enter password to view item values.</p>
+      <input type="password" id="password-input" placeholder="Password" autocomplete="off" />
+      <button id="login-button">Enter</button>
+      <p class="login-error" id="login-error"></p>
+    </div>
+  </div>
+
+ 
+  <div id="app" class="app hidden">
+    <aside class="sidebar">
+      <h2 class="sidebar-title">Categories</h2>
+      <button class="nav-button active" data-category="cars">Cars</button>
+      <button class="nav-button" data-category="guns">Guns</button>
+      <button class="nav-button" data-category="wraps">Wraps</button>
+      <button class="nav-button" data-category="gun-customisation">Gun Customisation</button>
+      <button class="nav-button" data-category="car-customisation">Car Customisation</button>
+    </aside>
+
+    <main class="content">
+      <h1 id="category-title">Cars</h1>
+      <div id="items-container" class="items-grid"></div>
+      <div id="status-message" class="status-message"></div>
+    </main>
+  </div>
+</body>
+</html>
