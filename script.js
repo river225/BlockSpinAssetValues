@@ -1,5 +1,5 @@
 
-const PASSWORD_HASH = "9be7488a40ee038eac599325d348f25ffe6f0d0de31b50680c9ef8b11f0a1a98";  
+const PASSWORD_HASH = "ea6e8386385e62e415caa05fba660b9cbafc152ead3ecb35ba0c94e7afa4730e";  
 
 async function sha256(message) {
   const msgBuffer = new TextEncoder().encode(message);
