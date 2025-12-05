@@ -10,7 +10,7 @@ function loadScript(src) {
 /* ------------------------------
     PASSWORD SYSTEM
 ------------------------------ */
-const PASSWORD_HASH = "ea6e8386385e62e415caa05fba660b9cbafc152ead3ecb35ba0c94e7afa4730e";  
+const PASSWORD_HASH = "ea6e8386385e62e415caa05fba660b9cbafc152ead3ecb35ba0c94e7afa4730e";  // from your current file :contentReference[oaicite:2]{index=2}
 
 async function sha256(message) {
     const msgBuffer = new TextEncoder().encode(message);
@@ -37,14 +37,14 @@ document.getElementById("login-button").addEventListener("click", async () => {
 });
 
 /* ------------------------------
-    CATEGORIES (NO JSON ANYMORE)
+    CATEGORIES
 ------------------------------ */
 const CATEGORY_MAP = {
-    "cars": { title: "Cars", sheet: "Cars" },
-    "guns": { title: "Guns", sheet: "Guns" },
-    "wraps": { title: "Wraps", sheet: "Wraps" },
-    "gun-customisation": { title: "Gun Customisation", sheet: "Gun Customisation" },
-    "car-customisation": { title: "Car Customisation", sheet: "Car Customisation" }
+    "cars":              { title: "Cars" },
+    "guns":              { title: "Guns" },
+    "wraps":             { title: "Wraps" },
+    "gun-customisation": { title: "Gun Customisation" },
+    "car-customisation": { title: "Car Customisation" }
 };
 
 /* ------------------------------
@@ -55,7 +55,7 @@ document.querySelectorAll(".nav-button").forEach(btn => {
         const category = btn.dataset.category;
         setActiveCategory(category);
 
-        // Call spreadsheet loader (defined inside fetchSheets.js)
+        // Spreadsheet loader is defined in fetchSheets.js
         if (window.loadCategoryFromSheets) {
             loadCategoryFromSheets(category);
         }
@@ -79,26 +79,35 @@ function renderItems(items) {
     container.innerHTML = "";
 
     items.forEach(item => {
+        const rarityText = (item.Rarity || "Unknown").toString();
+        const rarityClass = rarityText.toLowerCase().replace(/\s+/g, "-");
+
         const card = document.createElement("div");
         card.className = "item-card";
 
         card.innerHTML = `
-            <h3 class="item-name">${item.Name}</h3>
+            <h3 class="item-name">${item.Name || "Unnamed Item"}</h3>
 
             <div class="item-image-wrap">
-                <img src="${item["Image URL"]}" class="item-image" />
+                ${
+                    item.ImageURL
+                        ? `<img src="${item.ImageURL}" class="item-image" />`
+                        : `<div class="item-image" style="opacity:0.3;">No Image</div>`
+                }
             </div>
 
-            <div class="rarity-badge rarity-${item.Rarity.toLowerCase()}">
-                ${item.Rarity}
+            <div class="rarity-badge rarity-${rarityClass}">
+                ${rarityText}
             </div>
 
-            <p class="asset-value">Asset Value: ${item.AssetValue}</p>
-            <p class="pawn-value">Pawn Value: ${item.PawnValue}</p>
+            <p class="asset-value">Asset Value: ${item.AssetValue || "N/A"}</p>
+            <p class="pawn-value">Pawn Value: ${item.PawnValue || "N/A"}</p>
         `;
 
         container.appendChild(card);
     });
+
+    console.log("Rendered items:", items);
 }
 
 console.log("SCRIPT LOADED");
