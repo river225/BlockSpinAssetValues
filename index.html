@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BlockSpin Asset Values</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
-<div id="login-screen">
+<!-- LOGIN SCREEN -->
+<div id="login-screen" class="login-screen">
     <h2>Enter Password</h2>
-    <input id="password-input" type="password" placeholder="Password">
+    <input type="password" id="password-input" placeholder="Password" />
     <button id="login-button">Enter</button>
     <p id="login-error"></p>
 </div>
 
+<!-- MAIN APP -->
 <div id="app" class="hidden">
 
     <nav class="sidebar">
-        <button class="nav-button" data-category="cars">Cars</button>
+        <button class="nav-button active" data-category="cars">Cars</button>
         <button class="nav-button" data-category="guns">Guns</button>
         <button class="nav-button" data-category="wraps">Wraps</button>
         <button class="nav-button" data-category="gun-customisation">Gun Customisation</button>
@@ -29,13 +31,17 @@
     <main class="content">
         <h1 id="category-title">Cars</h1>
 
-        <input id="search-input" class="search-bar" type="text" placeholder="Search items...">
+        <!-- SEARCH BAR -->
+        <input 
+            type="text" 
+            id="search-input" 
+            placeholder="Search items..." 
+            class="search-bar"
+        />
 
-        <p id="status-message"></p>
-
-        <div id="items-container" class="items-container"></div>
+        <div id="items-container" class="items-grid"></div>
+        <div id="status-message" class="status-message"></div>
     </main>
-
 </div>
 
 <script src="script.js"></script>
