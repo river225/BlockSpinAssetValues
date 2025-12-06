@@ -1,15 +1,11 @@
-/* ------------------------------
-    LOAD EXTERNAL SCRIPT
------------------------------- */
+/* LOAD EXTERNAL SCRIPT */
 function loadScript(src) {
     const s = document.createElement("script");
     s.src = src;
     document.body.appendChild(s);
 }
 
-/* ------------------------------
-    PASSWORD SYSTEM
------------------------------- */
+/* PASSWORD SYSTEM */
 const PASSWORD_HASH = "ea6e8386385e62e415caa05fba660b9cbafc152ead3ecb35ba0c94e7afa4730e";
 
 async function sha256(message) {
@@ -34,9 +30,7 @@ document.getElementById("login-button").addEventListener("click", async () => {
     }
 });
 
-/* ------------------------------
-    CATEGORIES
------------------------------- */
+/* CATEGORIES */
 const CATEGORY_MAP = {
     "cars":              { title: "Cars" },
     "guns":              { title: "Guns" },
@@ -64,9 +58,7 @@ function setActiveCategory(category) {
         CATEGORY_MAP[category].title;
 }
 
-/* ------------------------------
-    VALUE FORMATTING
------------------------------- */
+/* VALUE FORMATTING */
 function formatValue(v) {
     if (!v) return "N/A";
 
@@ -80,9 +72,7 @@ function formatValue(v) {
     return v;
 }
 
-/* ------------------------------
-    SEARCH SYSTEM
------------------------------- */
+/* SEARCH SYSTEM */
 let currentItems = [];
 
 function applySearch() {
@@ -102,9 +92,7 @@ window.setCurrentItems = function(items) {
     applySearch();
 };
 
-/* ------------------------------
-    RENDER ITEM CARDS
------------------------------- */
+/* RENDER ITEM CARDS */
 function renderItems(items) {
     const container = document.getElementById("items-container");
     container.innerHTML = "";
