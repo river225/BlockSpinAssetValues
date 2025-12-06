@@ -10,7 +10,9 @@ const CATEGORY_TABS = {
 
 async function loadCategoryFromSheets(category) {
     const tab = CATEGORY_TABS[category];
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(tab)}`;
+
+    const url =
+        `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(tab)}`;
 
     try {
         const res = await fetch(url);
@@ -34,8 +36,9 @@ async function loadCategoryFromSheets(category) {
         window.LAST_LOADED_ITEMS = items;
         renderItems(items);
 
-    } catch {
-        document.getElementById("status-message").textContent = "Error loading spreadsheet data.";
+    } catch (err) {
+        document.getElementById("status-message").textContent =
+            "Error loading spreadsheet data.";
     }
 }
 

@@ -19,7 +19,9 @@ document.getElementById("login-button").addEventListener("click", async () => {
     if (hash === PASSWORD_HASH) {
         document.getElementById("login-screen").classList.add("hidden");
         document.getElementById("app").classList.remove("hidden");
+
         loadScript("fetchSheets.js");
+
         setTimeout(() => {
             setActiveCategory("cars");
             loadCategoryFromSheets("cars");
@@ -39,9 +41,9 @@ const CATEGORY_MAP = {
 
 document.querySelectorAll(".nav-button").forEach(btn => {
     btn.addEventListener("click", () => {
-        const cat = btn.dataset.category;
-        setActiveCategory(cat);
-        loadCategoryFromSheets(cat);
+        const category = btn.dataset.category;
+        setActiveCategory(category);
+        loadCategoryFromSheets(category);
     });
 });
 
@@ -49,41 +51,41 @@ function setActiveCategory(category) {
     document.querySelectorAll(".nav-button").forEach(btn => {
         btn.classList.toggle("active", btn.dataset.category === category);
     });
-    document.getElementById("category-title").textContent = CATEGORY_MAP[category];
+
+    document.getElementById("category-title").textContent =
+        CATEGORY_MAP[category];
 }
 
 function renderItems(items) {
     const q = document.getElementById("search-input").value.toLowerCase();
+
     const container = document.getElementById("items-container");
     container.innerHTML = "";
 
-    items.filter(item => item.Name.toLowerCase().includes(q)).forEach(item => {
-        const card = document.createElement("div");
-        card.className = "item-card";
-        card.innerHTML = `
-            <h3 class="item-name">${item.Name}</h3>
-            <div class="item-image-wrap">
-                <img src="${item["Image URL"]}" class="item-image">
-            </div>
-            <div class="rarity-badge rarity-${item.Rarity.toLowerCase()}">${item.Rarity}</div>
-            <p class="asset-value">Asset Value: ${item.AssetValue}</p>
-            <p class="pawn-value">Pawn Value: ${item.PawnValue}</p>
-        `;
-        container.appendChild(card);
-    });
+    items
+        .filter(item => item.Name.toLowerCase().includes(q))
+        .forEach(item => {
+            const card = document.createElement("div");
+            card.className = "item-card";
+
+            card.innerHTML = `
+                <h3 class="item-name">${item.Name}</h3>
+                <div class="item-image-wrap">
+                    <img src="${item["Image URL"]}" class="item-image">
+                </div>
+                <div class="rarity-badge rarity-${item.Rarity.toLowerCase()}">${item.Rarity}</div>
+                <p class="asset-value">Asset Value: ${item.AssetValue}</p>
+                <p class="pawn-value">Pawn Value: ${item.PawnValue}</p>
+            `;
+
+            container.appendChild(card);
+        });
 }
 
 document.getElementById("search-input").addEventListener("input", () => {
-    if (window.LAST_LOADED_ITEMS) renderItems(window.LAST_LOADED_ITEMS);
+    if (window.LAST_LOADED_ITEMS) {
+        renderItems(window.LAST_LOADED_ITEMS);
+    }
 });
-
-const mobileToggle = document.getElementById("mobile-menu-toggle");
-const sidebar = document.querySelector(".sidebar");
-
-if (mobileToggle) {
-    mobileToggle.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-    });
-}
 
 console.log("SCRIPT LOADED");
