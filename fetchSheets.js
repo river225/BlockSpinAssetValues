@@ -4,7 +4,7 @@ const SHEET_MAP = {
     "cars": "Cars",
     "guns": "Guns",
     "wraps": "Wraps",
-    "Gun Customisation": "Gun Customisation",
+    "gun customisation": "Gun Customisation",
     "car-customisation": "Car Customisation"
 };
 
@@ -29,10 +29,16 @@ async function loadSheet(sheetName) {
         );
 
         const nameIdx  = headers.findIndex(h => normHeader(h) === "name");
-        const imgIdx   = headers.findIndex(h => ["imageurl", "image"].includes(normHeader(h)));
+        const imgIdx   = headers.findIndex(h =>
+            ["imageurl", "image"].includes(normHeader(h))
+        );
         const rarIdx   = headers.findIndex(h => normHeader(h) === "rarity");
-        const assetIdx = headers.findIndex(h => ["assetvalue", "asset"].includes(normHeader(h)));
-        const pawnIdx  = headers.findIndex(h => ["pawnvalue", "pawn"].includes(normHeader(h)));
+        const assetIdx = headers.findIndex(h =>
+            ["assetvalue", "asset"].includes(normHeader(h))
+        );
+        const pawnIdx  = headers.findIndex(h =>
+            ["pawnvalue", "pawn"].includes(normHeader(h))
+        );
 
         const items = rows
             .filter(row => row.some(v => v !== ""))

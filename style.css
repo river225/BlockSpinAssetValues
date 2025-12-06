@@ -9,29 +9,81 @@ body {
     display: none;
 }
 
-/* LOGIN SCREEN */
+/* ------------------------------
+   LOGIN SCREEN (IMPROVED)
+------------------------------ */
 .login-screen {
-    text-align: center;
-    margin-top: 100px;
+    position: fixed;
+    inset: 0;
+    background: #0d1117;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.login-screen input {
-    padding: 10px;
+.login-box {
+    background: #111820;
+    padding: 35px 40px;
+    border-radius: 12px;
+    text-align: center;
+    width: 90%;
+    max-width: 350px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.4);
+    border: 1px solid #1f2a37;
+}
+
+.login-title {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.login-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background: #0f1722;
+    color: white;
+    font-size: 15px;
+}
+
+.login-input:focus {
+    outline: none;
+    border-color: #3ba0ff;
+}
+
+.login-button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background: #3ba0ff;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
     font-size: 16px;
 }
 
-.login-screen button {
-    padding: 10px 20px;
+.login-button:hover {
+    background: #68b6ff;
+}
+
+.login-error {
+    color: #ff5555;
     margin-top: 10px;
 }
 
-/* SIDEBAR */
+/* ------------------------------
+   SIDEBAR
+------------------------------ */
 .sidebar {
     width: 200px;
     background: #111820;
     height: 100vh;
     float: left;
     padding-top: 20px;
+    transition: 0.25s;
 }
 
 .nav-button {
@@ -50,7 +102,46 @@ body {
     background: #3ba0ff;
 }
 
-/* CONTENT AREA */
+/* ------------------------------
+   MOBILE HAMBURGER
+------------------------------ */
+.mobile-menu-toggle {
+    display: none;
+    font-size: 28px;
+    padding: 15px;
+    color: white;
+    background: #1a2332;
+    width: fit-content;
+    border-radius: 8px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+@media (max-width: 800px) {
+    .sidebar {
+        position: fixed;
+        left: -220px;
+        top: 0;
+        z-index: 20;
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .mobile-menu-toggle {
+        display: block;
+    }
+
+    .content {
+        margin-left: 0 !important;
+        margin-top: 70px;
+    }
+}
+
+/* ------------------------------
+   CONTENT AREA
+------------------------------ */
 .content {
     margin-left: 220px;
     padding: 20px;
@@ -79,8 +170,8 @@ body {
     height: 150px;
     background: #0f1620;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     margin-bottom: 10px;
 }
 
@@ -96,7 +187,9 @@ body {
     margin-bottom: 10px;
 }
 
-/* RARITY COLORS */
+/* ------------------------------
+   RARITY COLORS
+------------------------------ */
 .rarity-common { background: #9e9e9e; }
 .rarity-uncommon { background: #4caf50; }
 .rarity-rare { background: #2196f3; }
@@ -106,7 +199,9 @@ body {
 .rarity-exotic { background: #00e5ff; color: black; }
 .rarity-unknown { background: #616161; }
 
-/* SEARCH BAR */
+/* ------------------------------
+   SEARCH BAR
+------------------------------ */
 .search-bar {
     width: 95%;
     padding: 10px;
